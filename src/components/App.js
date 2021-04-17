@@ -10,6 +10,7 @@ function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
+  const [selectedCard, setSelectedCard] = React.useState(null);
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
@@ -23,10 +24,15 @@ function App() {
     setIsAddPlacePopupOpen(true);
   }
 
+  function handleCardClick(card) {
+    setSelectedCard(card);
+  }
+
   function closeAllPopups() {
     setIsEditAvatarPopupOpen(false);
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
+    setSelectedCard(null);
   }
 
   return (
@@ -34,7 +40,7 @@ function App() {
       <div className="root">
         <div className="page">
           <Header />
-          <Main onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} onEditAvatar={handleEditAvatarClick} />
+          <Main onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} onEditAvatar={handleEditAvatarClick} onCardClick={handleCardClick} />
           <Footer />
           <PopupWithForm name="edit-profile" type="form" title="Редактировать профиль" buttonCaption="Сохранить" isOpen={isEditProfilePopupOpen} onClose={closeAllPopups}>
             <input className="popup__input popup__input_value_name" type="text" id="profile-name" minLength="2" maxLength="40" required placeholder = "Имя" />
@@ -53,7 +59,7 @@ function App() {
             <span className="popup__input-error avatar-link-error">Ошибка</span>
           </PopupWithForm>
           <PopupWithForm name="delete-card" type="dialog" title="Обновить аватар" buttonCaption="Да" />
-          <ImagePopup />
+          <ImagePopup card={selectedCard} onClose={closeAllPopups} />
 
         </div>
       </div>

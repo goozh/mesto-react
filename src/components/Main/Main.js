@@ -1,5 +1,6 @@
 import React from 'react';
 import {api} from '../../utils/Api.js';
+import Card from '../Card/Card.js';
 
 function Main(props) {
   const [userName, setUserName] = React.useState('');
@@ -38,17 +39,7 @@ function Main(props) {
       <section className="elements">
         <ul className="elements__list">
           { cards.map((card) => (
-            <li className="element" key={card._id}>
-              <img src={card.link} alt={card.name} className="element__image" />
-              <button className="element__remove" name="element__remove" type="button"></button>
-              <div className="element__caption">
-                <h2 className="element__title">{card.name}</h2>
-                <div className="element__like-container">
-                  <button className="element__like" name="element__like" type="button"></button>
-                  <p className="element__like-count">{card.likes.length}</p>
-                </div>
-              </div>
-            </li>
+            <Card key={card._id} card={card} onCardClick={props.onCardClick} />
           )) }
         </ul>
       </section>
