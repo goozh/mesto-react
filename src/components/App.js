@@ -34,7 +34,7 @@ function App() {
       <div className="root">
         <div className="page">
           <Header />
-          <Main onEditProfile={handleEditProfileClick} onAddPlace={handleEditAvatarClick} onEditAvatar={handleAddPlaceClick} />
+          <Main onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} onEditAvatar={handleEditAvatarClick} />
           <Footer />
           <PopupWithForm name="edit-profile" type="form" title="Редактировать профиль" buttonCaption="Сохранить" isOpen={isEditProfilePopupOpen} onClose={closeAllPopups}>
             <input className="popup__input popup__input_value_name" type="text" id="profile-name" minLength="2" maxLength="40" required placeholder = "Имя" />
