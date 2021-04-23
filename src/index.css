@@ -47,6 +47,6 @@
 @import url(./blocks/element/__like/element__like.css);
 @import url(./blocks/element/__like/_active/element__like_active.css);
 @import url(./blocks/element/__remove/element__remove.css);
-@import url(./blocks/element/__remove/_own/element__remove_own.css);
+@import url(./blocks/element/__remove/_visible/element__remove_visible.css);
 @import url(./blocks/footer/footer.css);
 @import url(./blocks/footer/__copyright/footer__copyright.css);
