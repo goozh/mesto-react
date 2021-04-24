@@ -5,19 +5,19 @@ import Footer from './Footer/Footer.js';
 import PopupWithForm from './PopupWithForm/PopupWithForm.js';
 import ImagePopup from './ImagePopup/ImagePopup.js';
 import {CurrentUserContext} from '../contexts/CurrentUserContext.js';
+import {api} from '../utils/Api.js';
 
 function App() {
-  const [currentUser, setCurrentUser] = React.useState(null);
+  const [currentUser, setCurrentUser] = React.useState('');
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
   const [selectedCard, setSelectedCard] = React.useState(null);
 
   React.useEffect(() => {
-    api.getInitialData()
+    api.getUserInfo()
     .then((results) => {
-      setCurrentUser(results[0]);
-      setCards(results[1])
+      setCurrentUser(results);
     })
     .catch((err) => {
       console.log(`Ошибка при получении данных с сервера: ${err}`);
