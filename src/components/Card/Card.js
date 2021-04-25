@@ -22,10 +22,14 @@ export default function Card(props) {
     props.onCardLike(props.card);
   }
 
+  function handleCardDelete() {
+    props.onCardDelete(props.card);
+  }
+
   return (
     <li className="element">
       <img src={props.card.link} alt={props.card.name} onClick={handleClick} className="element__image" />
-      <button className={cardDeleteButtonClassName} name="element__remove" type="button"></button>
+      <button className={cardDeleteButtonClassName} onClick={handleCardDelete} name="element__remove" type="button"></button>
       <div className="element__caption">
         <h2 className="element__title">{props.card.name}</h2>
         <div className="element__like-container">
