@@ -6,6 +6,7 @@ import PopupWithForm from './PopupWithForm/PopupWithForm.js';
 import ImagePopup from './ImagePopup/ImagePopup.js';
 import {CurrentUserContext} from '../contexts/CurrentUserContext.js';
 import {api} from '../utils/Api.js';
+import EditProfilePopup from './EditProfilePopup/EditProfilePopup.js';
 
 function App() {
   const [currentUser, setCurrentUser] = React.useState('');
@@ -47,6 +48,13 @@ function App() {
     setSelectedCard(null);
   }
 
+  function handleUpdateUser(newInfo) {
+    api.setUserInfo(newInfo).then((updatedInfo) => {
+      setCurrentUser(updatedInfo);
+      closeAllPopups();
+    });
+  }
+
   return (
     <div className="App">
       <CurrentUserContext.Provider value={currentUser}>
@@ -55,12 +63,7 @@ function App() {
             <Header />
             <Main onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} onEditAvatar={handleEditAvatarClick} onCardClick={handleCardClick} />
             <Footer />
-            <PopupWithForm name="edit-profile" type="form" title="Редактировать профиль" buttonCaption="Сохранить" isOpen={isEditProfilePopupOpen} onClose={closeAllPopups}>
-              <input className="popup__input popup__input_value_name" type="text" id="profile-name" minLength="2" maxLength="40" required placeholder = "Имя" />
-              <span className="popup__input-error profile-name-error">Ошибка</span>
-              <input className="popup__input popup__input_value_desc" type="text" id="profile-info" minLength="2" maxLength="200" required placeholder = "О себе" />
-              <span className="popup__input-error profile-info-error">Ошибка</span>
-            </PopupWithForm>
+            <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
             <PopupWithForm name="add-card" type="form" title="Новое место" buttonCaption="Создать" isOpen={isAddPlacePopupOpen} onClose={closeAllPopups}>
               <input className="popup__input popup__input_value_name" type="text" id="card-name" maxLength="30" required placeholder="Название" />
               <span className="popup__input-error card-name-error">Ошибка</span>

@@ -21,7 +21,7 @@ class Api {
       .then(this._checkResponse);
   }
 
-  patchUserInfo({name, about}) {
+  setUserInfo({name, about}) {
     return fetch(this._baseUrl + '/users/me', {
       method: 'PATCH',
       headers: this._options.headers,
