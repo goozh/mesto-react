@@ -28,6 +28,16 @@ function App() {
     });
   }, []);
 
+  React.useEffect(() => {
+    api.getInitialCards()
+    .then((results) => {
+      setCards(results);
+    })
+    .catch((err) => {
+      console.log(`Ошибка: ${err}`);
+    });
+  }, []);
+
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
   }
@@ -64,16 +74,6 @@ function App() {
       closeAllPopups();
     });
   }
-
-  React.useEffect(() => {
-    api.getInitialCards()
-    .then((results) => {
-      setCards(results);
-    })
-    .catch((err) => {
-      console.log(`Ошибка: ${err}`);
-    });
-  }, []);
 
   function handleCardLike(card) {
     // Снова проверяем, есть ли уже лайк на этой карточке
