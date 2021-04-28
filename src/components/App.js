@@ -34,7 +34,7 @@ function App() {
       setCards(results);
     })
     .catch((err) => {
-      console.log(`Ошибка: ${err}`);
+      console.log(`Ошибка при получении данных с сервера: ${err}`);
     });
   }, []);
 
@@ -62,39 +62,59 @@ function App() {
   }
 
   function handleUpdateUser(newInfo) {
-    api.setUserInfo(newInfo).then((updatedInfo) => {
-      setCurrentUser(updatedInfo);
-      closeAllPopups();
-    });
+    api.setUserInfo(newInfo)
+      .then((updatedInfo) => {
+        setCurrentUser(updatedInfo);
+        closeAllPopups();
+      })
+      .catch((err) => {
+        console.log(`Ошибка при отправке данных на сервер: ${err}`);
+      });
   }
 
   function handleUpdateAvatar(newInfo) {
-    api.setUserAvatar(newInfo).then((updatedInfo) => {
-      setCurrentUser(updatedInfo);
-      closeAllPopups();
-    });
+    api.setUserAvatar(newInfo)
+      .then((updatedInfo) => {
+        setCurrentUser(updatedInfo);
+        closeAllPopups();
+      })
+      .catch((err) => {
+        console.log(`Ошибка при отправке данных на сервер: ${err}`);
+      });
   }
 
   function handleCardLike(card) {
     // Снова проверяем, есть ли уже лайк на этой карточке
     const isLiked = card.likes.some(i => i._id === currentUser._id);
     // Отправляем запрос в API и получаем обновлённые данные карточки
-    api.changeLikeCardStatus(card._id, !isLiked).then((newCard) => {
-      setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
-    });
+    api.changeLikeCardStatus(card._id, !isLiked)
+      .then((newCard) => {
+        setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
+      })
+      .catch((err) => {
+        console.log(`Ошибка при отправке данных на сервер: ${err}`);
+      });
   }
 
   function handleCardDelete(deletedCard) {
-    api.deleteCard(deletedCard._id).then(() => {
-      setCards(cards.filter((card) => card._id !== deletedCard._id));
-    })
+    api.deleteCard(deletedCard._id)
+      .then(() => {
+        setCards(cards.filter((card) => card._id !== deletedCard._id));
+      })
+      .catch((err) => {
+        console.log(`Ошибка при отправке данных на сервер: ${err}`);
+      });
   }
 
   function handleAddPlaceSubmit(newCard) {
-    api.postCard(newCard).then((updatedCard) => {
-      setCards([updatedCard, ...cards]);
-      closeAllPopups();
-    })
+    api.postCard(newCard)
+      .then((updatedCard) => {
+        setCards([updatedCard, ...cards]);
+        closeAllPopups();
+      })
+      .catch((err) => {
+        console.log(`Ошибка при отправке данных на сервер: ${err}`);
+      });
   }
 
   return (
