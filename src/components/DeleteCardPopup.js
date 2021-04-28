@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import PopupWithForm from '../PopupWithForm/PopupWithForm.js';
+import PopupWithForm from './PopupWithForm.js';
 
 function DeleteCardPopup(props) {
 
