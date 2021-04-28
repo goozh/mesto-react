@@ -9,12 +9,15 @@ import {api} from '../utils/Api.js';
 import EditProfilePopup from './EditProfilePopup/EditProfilePopup.js';
 import EditAvatarPopup from './EditAvatarPopup/EditAvatarPopup.js';
 import AddPlacePopup from './AddPlacePopup/AddPlacePopup.js';
+import DeleteCardPopup from './DeleteCardPopup/DeleteCardPopup.js';
 
 function App() {
   const [currentUser, setCurrentUser] = React.useState('');
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
+  const [isDeleteCardPopupOpen, setIsDeleteCardPopupOpen] = React.useState(false);
+  const [cardToDelete, setCardToDelete] = React.useState(null);
   const [selectedCard, setSelectedCard] = React.useState(null);
   const [cards, setCards] = React.useState([]);
 
@@ -58,6 +61,7 @@ function App() {
     setIsEditAvatarPopupOpen(false);
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
+    setIsDeleteCardPopupOpen(false);
     setSelectedCard(null);
   }
 
@@ -96,15 +100,15 @@ function App() {
       });
   }
 
-  function handleCardDelete(deletedCard) {
-    api.deleteCard(deletedCard._id)
-      .then(() => {
-        setCards(cards.filter((card) => card._id !== deletedCard._id));
-      })
-      .catch((err) => {
-        console.log(`Ошибка при отправке данных на сервер: ${err}`);
-      });
-  }
+  // function handleCardDelete(deletedCard) {
+  //   api.deleteCard(deletedCard._id)
+  //     .then(() => {
+  //       setCards(cards.filter((card) => card._id !== deletedCard._id));
+  //     })
+  //     .catch((err) => {
+  //       console.log(`Ошибка при отправке данных на сервер: ${err}`);
+  //     });
+  // }
 
   function handleAddPlaceSubmit(newCard) {
     api.postCard(newCard)
@@ -113,8 +117,25 @@ function App() {
         closeAllPopups();
       })
       .catch((err) => {
-        console.log(`Ошибка при отправке данных на сервер: ${err}`);
+        console.log(`Ошибка добавлении карточки: ${err}`);
       });
+  }
+
+  function handleDeleteButtonClick(card) {
+    setCardToDelete(card);
+    setIsDeleteCardPopupOpen(true);
+  }
+
+  function handleDeleteCardSubmit() {
+    api.deleteCard(cardToDelete._id)
+      .then(() => {
+        setCards(cards.filter((card) => card._id !== cardToDelete._id));
+        closeAllPopups();
+      })
+      .catch((err) => {
+        console.log(`Ошибка при удалении карточки: ${err}`);
+      });
+
   }
 
   return (
@@ -123,12 +144,12 @@ function App() {
         <div className="root">
           <div className="page">
             <Header />
-            <Main onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} onEditAvatar={handleEditAvatarClick} onCardClick={handleCardClick} cards={cards} onCardLike={handleCardLike} onCardDelete={handleCardDelete} />
+            <Main onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} onEditAvatar={handleEditAvatarClick} onCardClick={handleCardClick} cards={cards} onCardLike={handleCardLike} onDeleteButtonClick={handleDeleteButtonClick} />
             <Footer />
             <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
             <EditAvatarPopup  isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar} />
             <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onAddPlaceSubmit={handleAddPlaceSubmit} />
-            <PopupWithForm name="delete-card" type="dialog" title="Обновить аватар" buttonCaption="Да" />
+            <DeleteCardPopup isOpen={isDeleteCardPopupOpen} onClose={closeAllPopups} onDeleteCardSubmit={handleDeleteCardSubmit} />
             <ImagePopup card={selectedCard} onClose={closeAllPopups} />
           </div>
         </div>
