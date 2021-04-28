@@ -2,7 +2,6 @@ import React from 'react';
 import Header from './Header/Header.js';
 import Main from './Main/Main.js';
 import Footer from './Footer/Footer.js';
-import PopupWithForm from './PopupWithForm/PopupWithForm.js';
 import ImagePopup from './ImagePopup/ImagePopup.js';
 import {CurrentUserContext} from '../contexts/CurrentUserContext.js';
 import {api} from '../utils/Api.js';
